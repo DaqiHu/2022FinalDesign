@@ -7,7 +7,7 @@
 //构造函数
 Message::Message() {
     ifstream inFile;
-    inFile.open("message.txt", ios::in);    //以只读形式打开 message.txt
+    inFile.open("../message.txt", ios::in);    //以只读形式打开 message.txt
 
     //打开失败报错
     if (!inFile.is_open()) {

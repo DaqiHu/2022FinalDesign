@@ -9,18 +9,20 @@
 #include <vector>
 
 #include "../Headers/Employee.h"
+#include "../Headers/Data.h"
 
 using namespace std;
 
 class PrintData {
 public:
-    //构造析构
     static void print();
+
 private:
     static void displayBanner(int m);
+
     static void printStaff();
+
     static void printSalesManager();
-    static Message msg;
 };
 
 #endif //INC_2022FINALDESIGN_PRINTDATA_H

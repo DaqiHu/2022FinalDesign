@@ -7,9 +7,10 @@
 //显示标题：0为员工信息，1为销售经理信息
 void PrintData::displayBanner(int m) {
     system("CLS");
-    cout << msg.show(m == 0 ? "PrintStaff" : "PrintSalesManager") << endl
+    auto msg = new Message;
+    cout << msg->show(m == 0 ? "PrintStaff" : "PrintSalesManager") << endl
          << endl
-         << msg.show(m == 0 ? "PrintStaffBanner" : "PrintSalesManagerBanner")
+         << msg->show(m == 0 ? "PrintStaffBanner" : "PrintSalesManagerBanner")
          << "----------------------------------------------" << endl;
 }
 
@@ -22,15 +23,18 @@ void PrintData::print() {
 }
 
 void PrintData::printStaff() {
-    extern vector<Employee> staffList;    //声明全局变量
-    const char tab = '\t';
-
-    //循环输出
-    for (auto &iter: staffList)
-        cout << iter.id() << tab << iter.name() << tab << iter.sex() << tab << iter.age() << tab << iter.post() << tab
-             << iter.salary() << endl;
+    auto d = new Data;
+    d->show();
+    delete d;
 }
 
 void PrintData::printSalesManager() {
+    auto d = new Data;
+    float total = 0.0;
+    total = d->showSalesManager();
+    delete d;
 
+    auto msg = new Message;
+    cout << msg->show("PrintSalesManagerHimself") << ' ' << total <<endl;
+    delete msg;
 }

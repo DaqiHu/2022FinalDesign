@@ -54,15 +54,11 @@
 //}
 
 #include <iostream>
-#include <string>
-
+#include "Headers/Message.h"
 using namespace std;
 
 int main() {
-    char a = '\003', b = 4, c = 5, d = 6;
-    cout << a << endl
-         << b << endl
-         << c << endl
-         << d << endl;
+    static Message msg;
+    cout << msg.show("Post1") << endl;
     return 0;
 }

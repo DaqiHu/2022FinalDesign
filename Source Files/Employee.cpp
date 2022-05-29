@@ -1,6 +1,6 @@
 #include"../Headers/Employee.h"
 
-#include <utility>
+const char tab = ' ';
 
 //获取职工号
 string Employee::id() {
@@ -46,9 +46,8 @@ string Employee::post() {
 }
 
 ostream &operator<<(ostream &os, const Employee &emp) {
-    const char tab = ' ';
     os << emp.str_id << tab << emp.str_name << tab << emp.c_sex << tab << emp.ui_age << tab << emp.ui_post << tab
-       << emp.f_salary;
+       << emp.f_salary << endl;
     return os;
 }
 
@@ -71,12 +70,13 @@ float Engineer::hour() const {
 }
 
 ostream &operator<<(ostream &os, const Engineer &eng) {
-    os << eng.f_hour;
+    os << eng.str_id << tab << eng.str_name << tab << eng.c_sex << tab << eng.ui_age << tab << eng.ui_post << tab
+       << eng.f_salary << tab << eng.f_hour << endl;
     return os;
 }
 
 istream &operator>>(istream &is, Engineer &eng) {
-    is >> eng.str_id >> eng.str_name >> eng.c_sex >> eng.ui_age >> eng.f_hour;
+    is >> eng.str_id >> eng.str_name >> eng.c_sex >> eng.ui_age >> eng.ui_post >> eng.f_salary >> eng.f_hour;
     eng.f_salary = hourSalary * eng.f_hour;
     return is;
 }
@@ -84,26 +84,28 @@ istream &operator>>(istream &is, Engineer &eng) {
 //---------------------------经理-------------------------------
 
 //构造函数
-Manager::Manager(string str_id, string str_name, char c_sex, unsigned int ui_age, float f_hour, float f_sales) :
-        Employee{std::move(str_id), std::move(str_name), c_sex, ui_age, 2, 0.0} {
-    f_salary = staticSalary;                //固定月薪
+Manager::Manager() {
+    ui_post = 2;
     cout << msg.show("InputPostManagerSuccess") << endl;
 }
 
 ostream &operator<<(ostream &os, const Manager &mang) {
+    os << mang.str_id << tab << mang.str_name << tab << mang.c_sex << tab << mang.ui_age << tab << mang.ui_post << tab
+       << mang.f_salary << endl;
     return os;
 }
 
 istream &operator>>(istream &is, Manager &mang) {
+    is >> mang.str_id >> mang.str_name >> mang.c_sex >> mang.ui_age >> mang.ui_post >> mang.f_salary;
+    mang.f_salary = staticSalary;
     return is;
 }
 
 //---------------------------销售员-------------------------------
 
 //构造函数
-SalesPerson::SalesPerson(string str_id, string str_name, char c_sex, unsigned int ui_age, float f_hour, float f_sales) :
-        Employee{std::move(str_id), std::move(str_name), c_sex, ui_age, 3, 0.0}, f_sales(f_sales) {
-    f_salary = bonusRate / 100 * f_sales;    //销售额*提成%
+SalesPerson::SalesPerson() {
+    ui_post = 3;
     cout << msg.show("InputPostSalesPersonSuccess") << endl;
 }
 
@@ -113,12 +115,14 @@ float SalesPerson::sales() const {
 }
 
 ostream &operator<<(ostream &os, const SalesPerson &sp) {
-    os << sp.f_sales;
+    os << sp.str_id << tab << sp.str_name << tab << sp.c_sex << tab << sp.ui_age << tab << sp.ui_post << tab
+       << sp.f_salary << tab << sp.f_sales << endl;
     return os;
 }
 
 istream &operator>>(istream &is, SalesPerson &sp) {
-    is >> sp.f_sales;
+    is >> sp.str_id >> sp.str_name >> sp.c_sex >> sp.ui_age >> sp.ui_post >> sp.f_salary >> sp.f_sales;
+    sp.f_salary = sp.f_sales * bonusRate;
     return is;
 }
 
@@ -126,15 +130,7 @@ istream &operator>>(istream &is, SalesPerson &sp) {
 
 //构造函数
 SalesManager::SalesManager() {
-
-}
-
-SalesManager::SalesManager(const string &str_id, const string &str_name, char c_sex, unsigned int ui_age, float f_hour,
-                           float f_salesTotal) :
-        Employee{str_id, str_name, c_sex, ui_age, 4, 0.0},    //在这里有三个类的初始化列表，就不适合用 std::move 函数了
-        Manager{str_id, str_name, c_sex, ui_age, f_hour, 0.0},
-        SalesPerson{str_id, str_name, c_sex, ui_age, f_hour, 0.0} {
-    f_salary = salesAmountRate / 100 * f_salesTotal + baseSalary; //底薪+所辖部门销售额总额*折算比例%
+    ui_post = 4;
     cout << msg.show("InputPostSalesManagerSuccess") << endl;
 }
 
@@ -143,12 +139,18 @@ float SalesManager::salesTotal() const {
     return f_salesTotal;
 }
 
+void SalesManager::setSalesTotal(float total) {
+    f_salesTotal = total;
+}
+
 ostream &operator<<(ostream &os, const SalesManager &sm) {
-    os << sm.f_salesTotal;
+    os << sm.str_id << tab << sm.str_name << tab << sm.c_sex << tab << sm.ui_age << tab << sm.ui_post << tab
+       << sm.f_salary << tab << sm.f_salesTotal << endl;
     return os;
 }
 
 istream &operator>>(istream &is, SalesManager &sm) {
-    is >> sm.f_salesTotal;
+    is >> sm.str_id >> sm.str_name >> sm.c_sex >> sm.ui_age >> sm.ui_post >> sm.f_salary >> sm.f_salesTotal;
+    sm.f_salary = salesAmountRate / 100 * sm.f_salesTotal + baseSalary;  //底薪+所辖部门销售额总额*折算比例%
     return is;
 }

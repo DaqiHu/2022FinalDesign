@@ -35,12 +35,9 @@ void selectFunction() {
             delete p;
             break;
         }
-        case 2:{
-            auto p = new SortData;
-            p->sort();
-            delete p;
+        case 2:
+            SortData::sort();
             break;
-        }
         case 3:
             PrintData::print();
             break;
@@ -56,7 +53,6 @@ void selectFunction() {
 }
 
 [[noreturn]] void MainPage::menu() {
-    SaveData::load();
     displayBanner();
     while (true) {
         displayMainPage();

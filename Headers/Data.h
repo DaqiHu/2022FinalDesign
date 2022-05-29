@@ -15,6 +15,7 @@
 
 using namespace std;
 
+//类中全部成员都是 public 的
 class Data {
 public:
     //构造析构
@@ -22,88 +23,138 @@ public:
 
     ~Data();
 
-    //增
-    void insert(const Employee &staff);
-
-    void insert(const Engineer &staff);
-
-    void insert(const Manager &staff);
-
-    void insert(const SalesPerson &staff);
-
-    void insert(const SalesManager &staff);
-
-    //删
-    void erase(const Employee &staff);
-
-    //改
-    void update(const Employee &staff);
-
-    //查
-    auto find(const Employee &staff);
-
-    auto find(const Engineer &staff);
-
-    auto find(const Manager &staff);
-
-    auto find(const SalesPerson &staff);
-
-    auto find(const SalesManager &staff);
-
     //排序
-    static void sort(vector<Employee> &vec);                            //排序算法
+    void sort();                            //排序算法
     friend bool rule(const Employee &first, const Employee &second);    //排序规则 （必须声明为友元函数，即全局化）
-    static void sortAndShow(vector<Employee> vec);                      //排序后输出
 
     //显示
-    static void show(vector<Employee> &vec);
+    void show();
+    float showSalesManager();
+    void sortAndShow();                      //排序后输出
 
-    //获取数据成员
-    vector<Employee> &staffList();
+//    //获取数据成员
+//    vector<Employee> &staffList();
+//
+//    vector<Engineer> &engineerList();
+//
+//    vector<Manager> &managerList();
+//
+//    vector<SalesPerson> &salesPersonList();
+//
+//    vector<SalesManager> &salesManagerList();
 
-    vector<Engineer> &engineerList();
+    //重载输出运算符<<：vector容器
+    friend inline ostream &operator<<(ostream &os, const vector<Employee> &vec);
 
-    vector<Manager> &managerList();
+    friend inline ostream &operator<<(ostream &os, const vector<Engineer> &vec);
 
-    vector<SalesPerson> &salesPersonList();
+    friend inline ostream &operator<<(ostream &os, const vector<Manager> &vec);
 
-    vector<SalesManager> &salesManagerList();
+    friend inline ostream &operator<<(ostream &os, const vector<SalesPerson> &vec);
 
-    friend ostream &operator<<(ostream &os, const vector<Employee> &vec);
+    friend inline ostream &operator<<(ostream &os, const vector<SalesManager> &vec);
 
-    friend ostream &operator<<(ostream &os, const vector<Engineer> &vec);
+    //重载输入运算符>>：vector容器
+    friend inline istream &operator>>(istream &is, vector<Employee> &vec);
 
-    friend ostream &operator<<(ostream &os, const vector<Manager> &vec);
+    friend inline istream &operator>>(istream &is, vector<Engineer> &vec);
 
-    friend ostream &operator<<(ostream &os, const vector<SalesPerson> &vec);
+    friend inline istream &operator>>(istream &is, vector<Manager> &vec);
 
-    friend ostream &operator<<(ostream &os, const vector<SalesManager> &vec);
+    friend inline istream &operator>>(istream &is, vector<SalesPerson> &vec);
 
-//    friend ostream &operator<<(ostream &os, const Data &data);
+    friend inline istream &operator>>(istream &is, vector<SalesManager> &vec);
 
-    friend istream &operator>>(istream &is, vector<Employee> &vec);
+    //保存数据到文件
+    void save() const;
 
-    friend istream &operator>>(istream &is, vector<Engineer> &vec);
-
-    friend istream &operator>>(istream &is, vector<Manager> &vec);
-
-    friend istream &operator>>(istream &is, vector<SalesPerson> &vec);
-
-    friend istream &operator>>(istream &is, vector<SalesManager> &vec);
-
-    void save();
-
+    //从文件读取数据
     void load();
 
+    //删除文件数据
     void erase();
 
-private:
+    //数据容器
     vector<Employee> vec_staffList;
     vector<Engineer> vec_engineerList;
     vector<Manager> vec_managerList;
     vector<SalesPerson> vec_salesPersonList;
     vector<SalesManager> vec_salesManagerList;
-    static Message msg;
 };
+
+inline ostream &operator<<(ostream &os, const vector<Employee> &vec) {
+    const char tab = ' ';
+    for (auto &iter: vec)
+        os << iter << tab;
+    return os;
+}
+
+inline ostream &operator<<(ostream &os, const vector<Engineer> &vec) {
+    const char tab = ' ';
+    for (auto &iter: vec)
+        os << iter << tab;
+    return os;
+}
+
+inline ostream &operator<<(ostream &os, const vector<Manager> &vec) {
+    const char tab = ' ';
+    for (auto &iter: vec)
+        os << iter << tab;
+    return os;
+}
+
+inline ostream &operator<<(ostream &os, const vector<SalesPerson> &vec) {
+    const char tab = ' ';
+    for (auto &iter: vec)
+        os << iter << tab;
+    return os;
+}
+
+inline ostream &operator<<(ostream &os, const vector<SalesManager> &vec) {
+    const char tab = ' ';
+    for (auto &iter: vec)
+        os << iter << tab;
+    return os;
+}
+
+inline istream &operator>>(istream &is, vector<Employee> &vec) {
+    Employee emp;
+    while (is >> emp) {
+        vec.emplace_back(emp);
+    }
+    return is;
+}
+
+inline istream &operator>>(istream &is, vector<Engineer> &vec) {
+    Engineer eng;
+    while (is >> eng) {
+        vec.emplace_back(eng);
+    }
+    return is;
+}
+
+inline istream &operator>>(istream &is, vector<Manager> &vec) {
+    Manager mang;
+    while (is >> mang) {
+        vec.emplace_back(mang);
+    }
+    return is;
+}
+
+inline istream &operator>>(istream &is, vector<SalesPerson> &vec) {
+    SalesPerson sp;
+    while (is >> sp) {
+        vec.emplace_back(sp);
+    }
+    return is;
+}
+
+inline istream &operator>>(istream &is, vector<SalesManager> &vec) {
+    SalesManager sm;
+    while (is >> sm) {
+        vec.emplace_back(sm);
+    }
+    return is;
+}
 
 #endif //INC_2022FINALDESIGN_DATA_H

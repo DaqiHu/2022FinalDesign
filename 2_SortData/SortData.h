@@ -15,13 +15,9 @@ public:
 
     ~SortData() = default;
 
-    void sort();
+    static void sort();
 
     static void displayBanner();
-
-private:
-    Data data;
-    static SaveData sl;
 };
 
 #endif //INC_2022FINALDESIGN_SORTDATA_H

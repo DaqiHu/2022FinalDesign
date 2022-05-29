@@ -5,11 +5,18 @@
 #include "InputData.h"
 
 //循环计数器（以后可以用全局静态变量实现） static int count = 0;
-int InputData::loopCount() {
+int loopCount() {
     int count;
     cout << "请输入本次录入成员个数：" << endl;
     cin >> count;
     return count;
+}
+
+void InputData::input() {
+    int k = loopCount();
+    while (k--) {
+        getPost();
+    }
 }
 
 //获取岗位信息
@@ -102,34 +109,31 @@ void InputData::getPost() {
     }
 }
 
-//显示岗位-输入提示
-void InputData::showPost() {
-
-}
-
 //显示员工信息-输入提示
 void InputData::showStaff(unsigned int post) {
     cout << "您正在输入 ";
 
+    auto msg = new Message;
     switch (post) {
         case 0:
-            cout << msg.show("Post0");
+            cout << msg->show("Post0");
             break;    //未知
         case 1:
-            cout << msg.show("Post1");
+            cout << msg->show("Post1");
             break;    //技术员
         case 2:
-            cout << msg.show("Post2");
+            cout << msg->show("Post2");
             break;    //经理
         case 3:
-            cout << msg.show("Post3");
+            cout << msg->show("Post3");
             break;    //销售员
         case 4:
-            cout << msg.show("Post4");
+            cout << msg->show("Post4");
             break;    //销售经理
         default:
             break;
     }
+    delete msg;
     cout << " 员工信息：" << endl
          << "请按照以下提示依次输入..." << endl
          << "------------------------------" << endl
@@ -142,52 +146,24 @@ void InputData::getStaff(unsigned int post) {
     //显示
     showStaff(post);
 
-    string id;                //职工号
-    string name;            //姓名
-    char sex;                //性别
-    unsigned int age;        //年龄
-    float time;                //工作时长
-    float sales;            //销售额
-    float salesTotal = 0.0;    //所辖部门销售额总额
-
-    //销售经理
-    if (post == 4) {
-        //累加总销售额
-        for (auto &iter: staff.salesPersonList()) {
-            salesTotal += iter.sales();
-        }
-    }
-
-    cin >> id >> name >> sex >> age >> time >> sales;
+    //输入数据
     switch (post) {
         case 0:
-            staff.insert(Employee{id, name, sex, age, 0, 0.0});
+            cin >> data.vec_staffList;
             break;
         case 1:
-            staff.insert(Engineer{id, name, sex, age, time, 0.0});
+            cin >> data.vec_engineerList;
             break;
         case 2:
-            staff.insert(Manager{id, name, sex, age, 0.0, 0.0});
+            cin >> data.vec_managerList;
             break;
         case 3:
-            staff.insert(SalesPerson{id, name, sex, age, 0.0, sales});
+            cin >> data.vec_salesPersonList;
             break;
         case 4:
-            staff.insert(SalesManager{id, name, sex, age, 0.0, salesTotal});
+            cin >> data.vec_salesManagerList;
             break;
         default:
             break;
     }
-}
-
-void InputData::input() {
-    int k = loopCount();
-    while (k--) {
-        getPost();
-    }
-    SaveData::save();
-}
-
-void InputData::save() {
-
 }

@@ -6,10 +6,6 @@
 #define INC_2022FINALDESIGN_SAVEDATA_H
 
 #include <iostream>
-#include <fstream>
-#include <vector>
-
-#include "../Headers/Data.h"
 
 using namespace std;
 

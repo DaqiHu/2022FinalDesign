@@ -4,9 +4,10 @@
 #include "SortData.h"
 
 void SortData::sort() {
-    sl.load();
-    displayBanner();
-    Data::sortAndShow(data.staffList());
+    displayBanner();    //显示横幅
+    auto d = new Data;  //new 数据对象
+    d->sort();   //排序并显示
+    delete d;           //delete 数据对象
 }
 
 //显示
